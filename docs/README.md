@@ -1,4 +1,4 @@
-![ERD](https://github.com/alifirfandi/simple-cashier-inventory/docs/erd.svg)
+![ERD](https://github.com/alifirfandi/simple-cashier-inventory/blob/master/docs/erd.svg)
 
 ```mermaid
 erDiagram
