@@ -1,3 +1,6 @@
 .idea
 .env
 .env.test
+
+public/img/*
+!public/img/.gitkeep
