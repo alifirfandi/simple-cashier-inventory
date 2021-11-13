@@ -1,11 +1,12 @@
 package service
 
 import (
+	"time"
+
 	"github.com/alifirfandi/simple-cashier-inventory/helper"
 	"github.com/alifirfandi/simple-cashier-inventory/model"
 	"github.com/alifirfandi/simple-cashier-inventory/repository"
 	"github.com/alifirfandi/simple-cashier-inventory/validation"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -31,6 +32,7 @@ func (Service AuthServiceImpl) Login(Request model.AuthRequest) (Response model.
 				"exp":   time.Now().Add(24 * time.Hour).Unix(),
 				"id":    Response.Id,
 				"email": Response.Email,
+				"role":  Response.Role,
 			})
 			Response.AccessToken = accessToken
 			return Response, true, Error

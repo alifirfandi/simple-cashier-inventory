@@ -24,7 +24,9 @@ func (Repository AuthRepositoryImpl) Login(Request model.AuthRequest) (Response 
 		return Response, false, Error
 	}
 	Response.Id = user.Id
+	Response.Name = user.Name
 	Response.Email = user.Email
 	Response.Password = user.Password
+	Response.Role = user.Role
 	return Response, true, Error
 }

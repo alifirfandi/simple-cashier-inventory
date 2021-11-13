@@ -77,13 +77,13 @@ LOCK TABLES `products` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `transaction_detail`
+-- Table structure for table `transaction_details`
 --
 
-DROP TABLE IF EXISTS `transaction_detail`;
+DROP TABLE IF EXISTS `transaction_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `transaction_detail` (
+CREATE TABLE `transaction_details` (
   `id` int NOT NULL AUTO_INCREMENT,
   `qty` int NOT NULL,
   `sub_total` int NOT NULL,
@@ -92,18 +92,18 @@ CREATE TABLE `transaction_detail` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   KEY `transaction_id` (`transaction_id`),
-  CONSTRAINT `transaction_detail_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
-  CONSTRAINT `transaction_detail_ibfk_2` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`id`)
+  CONSTRAINT `transaction_details_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  CONSTRAINT `transaction_details_ibfk_2` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `transaction_detail`
+-- Dumping data for table `transaction_details`
 --
 
-LOCK TABLES `transaction_detail` WRITE;
-/*!40000 ALTER TABLE `transaction_detail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `transaction_detail` ENABLE KEYS */;
+LOCK TABLES `transaction_details` WRITE;
+/*!40000 ALTER TABLE `transaction_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -152,8 +152,9 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,6 +163,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Super Admin','superadmin@golang.com','$2a$14$Jwe3YurEbLcjVZTLqKUFHeLBKnWd2sV2dZd1UIqhmPRO4SqGVbCtS','SUPERADMIN','2021-11-13 07:26:59','2021-11-13 07:26:59',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -174,4 +176,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-12 23:23:49
+-- Dump completed on 2021-11-13 15:01:13

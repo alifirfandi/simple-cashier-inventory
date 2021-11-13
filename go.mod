@@ -14,9 +14,10 @@ require (
 	gorm.io/gorm v1.22.2
 )
 
+require github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+
 require (
 	github.com/andybalholm/brotli v1.0.2 // indirect
-	github.com/go-ozzo/ozzo-validation/v4 v4.3.0 // indirect
 	github.com/klauspost/compress v1.12.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.26.0 // indirect
