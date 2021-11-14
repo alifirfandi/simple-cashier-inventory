@@ -335,7 +335,7 @@ func TestGetAllProducts(t *testing.T) {
 	}
 }
 
-func TestGetProduct(t *testing.T) {
+func TestGetProductDetail(t *testing.T) {
 	gormDb := dbInit()
 	app, _, _, authService := productInit(gormDb)
 	clearDb(gormDb)

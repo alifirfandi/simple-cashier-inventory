@@ -29,12 +29,6 @@ type ProductRepositoryImpl struct {
 	Mysql gorm.DB
 }
 
-func NewProductRepository(Mysql *gorm.DB) ProductRepository {
-	return &ProductRepositoryImpl{
-		Mysql: *Mysql,
-	}
-}
-
 func (Repository ProductRepositoryImpl) InsertProduct(Request model.ProductRequest) (Response model.ProductResponse, Error error) {
 	var product entity.Product
 	mapProductRequestToEntity(&product, Request)
@@ -110,4 +104,10 @@ func (Repository ProductRepositoryImpl) DeleteProductById(Id int64) (Error error
 		return Error
 	}
 	return Error
+}
+
+func NewProductRepository(Mysql *gorm.DB) ProductRepository {
+	return &ProductRepositoryImpl{
+		Mysql: *Mysql,
+	}
 }

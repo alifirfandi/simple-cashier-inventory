@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/alifirfandi/simple-cashier-inventory/exception"
 	"os"
+
+	"github.com/alifirfandi/simple-cashier-inventory/exception"
 
 	"github.com/alifirfandi/simple-cashier-inventory/config"
 	"github.com/alifirfandi/simple-cashier-inventory/controller"
@@ -18,14 +19,17 @@ func main() {
 	authRepository := repository.NewAuthRepository(mysql)
 	userRepository := repository.NewUserRepository(mysql)
 	productRepository := repository.NewProductRepository(mysql)
+	historyRepository := repository.NewHistoryRepository(mysql)
 
 	authService := service.NewAuthService(&authRepository)
 	userService := service.NewUserService(&userRepository)
 	productService := service.NewProductService(&productRepository)
+	historyService := service.NewHistoryService(&historyRepository)
 
 	authController := controller.NewAuthController(&authService)
 	userController := controller.NewUserController(&userService)
 	productController := controller.NewProductController(&productService)
+	historyController := controller.NewHistoryController(&historyService)
 
 	app := fiber.New(config.NewFiberConfig())
 	app.Use(recover.New())
@@ -34,6 +38,7 @@ func main() {
 	authController.Route(v1)
 	userController.Route(v1)
 	productController.Route(v1)
+	historyController.Route(v1)
 
 	// Start App
 	err := app.Listen(os.Getenv("PORT"))
