@@ -199,7 +199,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -233,7 +233,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -339,13 +339,20 @@
 							"raw": "{\r\n    \"product_id\": 1,\r\n    \"qty\": 1\r\n}"
 						},
 						"url": {
-							"raw": "{{V1APIURL}}/transaction/cart",
+							"raw": "{{V1APIURL}}/transaction/cart/:id",
 							"host": [
 								"{{V1APIURL}}"
 							],
 							"path": [
 								"transaction",
-								"cart"
+								"cart",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -379,7 +386,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -498,7 +505,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -577,7 +584,7 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "sting",
+									"value": "string",
 									"type": "text"
 								},
 								{
@@ -598,12 +605,19 @@
 							]
 						},
 						"url": {
-							"raw": "{{V1APIURL}}/product",
+							"raw": "{{V1APIURL}}/product/:id",
 							"host": [
 								"{{V1APIURL}}"
 							],
 							"path": [
-								"product"
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -636,7 +650,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -721,7 +735,7 @@
 							"variable": [
 								{
 									"key": "invoice",
-									"value": null
+									"value": "invoice"
 								}
 							]
 						}

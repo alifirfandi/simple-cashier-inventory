@@ -7,13 +7,13 @@ import (
 	"path/filepath"
 )
 
-func SaveFile(location string, file *multipart.FileHeader) error {
+func SaveFile(file *multipart.FileHeader, location, filename string) error {
 	dir, err := os.Getwd()
 	if err != nil {
 		return err
 	}
 
-	fileLocation := filepath.Join(dir, location, file.Filename)
+	fileLocation := filepath.Join(dir, location, filename)
 	targetFile, err := os.OpenFile(fileLocation, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return err
