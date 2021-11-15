@@ -199,7 +199,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -233,7 +233,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -297,7 +297,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product_id\": 0,\r\n    \"qty\": 0\r\n}"
+							"raw": "{\r\n    \"product_id\": 1,\r\n    \"qty\": 1\r\n}"
 						},
 						"url": {
 							"raw": "{{V1APIURL}}/transaction/cart",
@@ -336,16 +336,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product_id\": 0,\r\n    \"qty\": 0\r\n}"
+							"raw": "{\r\n    \"product_id\": 1,\r\n    \"qty\": 1\r\n}"
 						},
 						"url": {
-							"raw": "{{V1APIURL}}/transaction/cart",
+							"raw": "{{V1APIURL}}/transaction/cart/:id",
 							"host": [
 								"{{V1APIURL}}"
 							],
 							"path": [
 								"transaction",
-								"cart"
+								"cart",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -379,7 +386,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -498,7 +505,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -519,13 +526,7 @@
 							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "multipart/form-data",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -541,12 +542,12 @@
 								},
 								{
 									"key": "price",
-									"value": "0",
+									"value": "1",
 									"type": "text"
 								},
 								{
 									"key": "stock",
-									"value": "0",
+									"value": "1",
 									"type": "text"
 								}
 							]
@@ -577,19 +578,13 @@
 							]
 						},
 						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "multipart/form-data",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
 								{
 									"key": "name",
-									"value": "sting",
+									"value": "string",
 									"type": "text"
 								},
 								{
@@ -599,23 +594,30 @@
 								},
 								{
 									"key": "price",
-									"value": "0",
+									"value": "1",
 									"type": "text"
 								},
 								{
 									"key": "stock",
-									"value": "0",
+									"value": "1",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{V1APIURL}}/product",
+							"raw": "{{V1APIURL}}/product/:id",
 							"host": [
 								"{{V1APIURL}}"
 							],
 							"path": [
-								"product"
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -648,7 +650,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -733,7 +735,7 @@
 							"variable": [
 								{
 									"key": "invoice",
-									"value": null
+									"value": "invoice"
 								}
 							]
 						}
