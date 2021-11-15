@@ -17,12 +17,6 @@ type ProductServiceImpl struct {
 	ProductRepository repository.ProductRepository
 }
 
-func NewProductService(ProductRepository *repository.ProductRepository) ProductService {
-	return &ProductServiceImpl{
-		ProductRepository: *ProductRepository,
-	}
-}
-
 func (Service ProductServiceImpl) InsertProduct(Request model.ProductRequest, File *multipart.FileHeader) (Response model.ProductResponse, Error error) {
 	if Error = validation.ProductValidation(Request); Error != nil {
 		return Response, Error
@@ -76,4 +70,10 @@ func (Service ProductServiceImpl) DeleteProductById(Id int64) (Error error) {
 	}
 
 	return nil
+}
+
+func NewProductService(ProductRepository *repository.ProductRepository) ProductService {
+	return &ProductServiceImpl{
+		ProductRepository: *ProductRepository,
+	}
 }

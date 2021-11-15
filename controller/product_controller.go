@@ -12,21 +12,6 @@ type ProductController struct {
 	ProductService service.ProductService
 }
 
-func NewProductController(ProductService *service.ProductService) ProductController {
-	return ProductController{
-		ProductService: *ProductService,
-	}
-}
-
-func (Controller ProductController) Route(App fiber.Router) {
-	router := App.Group("/product")
-	router.Post("", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.CreateProduct)
-	router.Get("", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.GetAllProducts)
-	router.Get("/:id", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.GetProductDetail)
-	router.Put("/:id", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.UpdateProduct)
-	router.Delete("/:id", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.DeleteProduct)
-}
-
 func (Controller ProductController) CreateProduct(c *fiber.Ctx) error {
 	request := new(model.ProductRequest)
 	if err := c.BodyParser(request); err != nil {
@@ -167,4 +152,19 @@ func (Controller ProductController) DeleteProduct(c *fiber.Ctx) error {
 		Data:   nil,
 		Error:  nil,
 	})
+}
+
+func (Controller ProductController) Route(App fiber.Router) {
+	router := App.Group("/product")
+	router.Post("", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.CreateProduct)
+	router.Get("", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.GetAllProducts)
+	router.Get("/:id", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.GetProductDetail)
+	router.Put("/:id", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.UpdateProduct)
+	router.Delete("/:id", middleware.CheckToken(), middleware.CheckRole("SUPERADMIN"), Controller.DeleteProduct)
+}
+
+func NewProductController(ProductService *service.ProductService) ProductController {
+	return ProductController{
+		ProductService: *ProductService,
+	}
 }
