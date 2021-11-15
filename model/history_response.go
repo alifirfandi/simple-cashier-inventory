@@ -1,15 +1,13 @@
 package model
 
-import "time"
-
 type HistoryResponse struct {
 	Invoice    string                `json:"invoice"`
 	Details    []TransactionResponse `json:"details"`
 	GrandTotal int                   `json:"grand_total"`
 	AdminId    int64                 `json:"admin_id"`
 	AdminName  string                `json:"admin_name"`
-	CreatedAt  time.Time             `json:"created_at"`
-	UpdatedAt  time.Time             `json:"updated_at"`
+	CreatedAt  string                `json:"created_at"`
+	UpdatedAt  string                `json:"updated_at"`
 }
 
 type HistoryListResponse struct {

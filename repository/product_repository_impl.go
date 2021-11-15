@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/alifirfandi/simple-cashier-inventory/entity"
@@ -8,21 +9,21 @@ import (
 	"gorm.io/gorm"
 )
 
-func mapProductRequestToEntity(productEntity *entity.Product, productRequest model.ProductRequest) {
+func mapProductRequestToProductEntity(productEntity *entity.Product, productRequest model.ProductRequest) {
 	productEntity.Name = productRequest.Name
 	productEntity.ImageUrl = productRequest.ImageUrl
 	productEntity.Price = productRequest.Price
 	productEntity.Stock = productRequest.Stock
 }
 
-func mapProductEntityToResponse(productResponse *model.ProductResponse, productEntity entity.Product) {
+func mapProductEntityToProductResponse(productResponse *model.ProductResponse, productEntity entity.Product) {
 	productResponse.Id = productEntity.Id
 	productResponse.Name = productEntity.Name
 	productResponse.Stock = productEntity.Stock
 	productResponse.Price = productEntity.Price
 	productResponse.ImageUrl = productEntity.ImageUrl
-	productResponse.CreatedAt = productEntity.CreatedAt
-	productResponse.UpdatedAt = productEntity.UpdateAt
+	productResponse.CreatedAt = productEntity.CreatedAt.Format(time.RFC3339)
+	productResponse.UpdatedAt = productEntity.UpdateAt.Format(time.RFC3339)
 }
 
 type ProductRepositoryImpl struct {
@@ -31,32 +32,24 @@ type ProductRepositoryImpl struct {
 
 func (Repository ProductRepositoryImpl) InsertProduct(Request model.ProductRequest) (Response model.ProductResponse, Error error) {
 	var product entity.Product
-	mapProductRequestToEntity(&product, Request)
+	mapProductRequestToProductEntity(&product, Request)
 	if Error = Repository.Mysql.Create(&product).Error; Error != nil {
 		return Response, Error
 	}
-	mapProductEntityToResponse(&Response, product)
+	mapProductEntityToProductResponse(&Response, product)
 	return Response, Error
 }
 
-func (Repository ProductRepositoryImpl) GetAllProducts() (Response []model.ProductResponse, Error error) {
+func (Repository ProductRepositoryImpl) GetAllProducts(Query model.ProductSelectQuery) (Response []model.ProductResponse, Error error) {
 	var products []entity.Product
-	if Error = Repository.Mysql.Where("deleted_at IS NULL").Find(&products).Error; Error != nil {
+	Error = Repository.Mysql.Where("name LIKE ? AND deleted_at IS NULL", Query.Search).Order(fmt.Sprintf("%s %s", Query.Sort.Field, Query.Sort.By)).Limit(Query.Limit).Offset(Query.Start).Find(&products).Error
+	if Error != nil {
 		return Response, Error
 	}
 
 	Response = make([]model.ProductResponse, len(products))
 	for i, product := range products {
-		mapProductEntityToResponse(&Response[i], product)
-		//Response[i] = model.ProductResponse{
-		//	Id:        product.Id,
-		//	Name:      product.Name,
-		//	ImageUrl:  product.ImageUrl,
-		//	Price:     product.Price,
-		//	Stock:     product.Stock,
-		//	CreatedAt: product.CreatedAt,
-		//	UpdatedAt: product.UpdateAt,
-		//}
+		mapProductEntityToProductResponse(&Response[i], product)
 	}
 	return Response, Error
 }
@@ -66,13 +59,13 @@ func (Repository ProductRepositoryImpl) GetProductById(Id int64) (Response model
 	if Error = Repository.Mysql.Where("deleted_at IS NULL").First(&product, Id).Error; Error != nil {
 		return Response, Error
 	}
-	mapProductEntityToResponse(&Response, product)
+	mapProductEntityToProductResponse(&Response, product)
 	return Response, Error
 }
 
 func (Repository ProductRepositoryImpl) UpdateProductById(Id int64, Request model.ProductRequest) (Response model.ProductResponse, Error error) {
 	var newProduct entity.Product
-	mapProductRequestToEntity(&newProduct, Request)
+	mapProductRequestToProductEntity(&newProduct, Request)
 
 	var product entity.Product
 	if Error = Repository.Mysql.Where("deleted_at IS NULL").First(&product, Id).Error; Error != nil {
@@ -90,7 +83,7 @@ func (Repository ProductRepositoryImpl) UpdateProductById(Id int64, Request mode
 		return Response, Error
 	}
 
-	mapProductEntityToResponse(&Response, product)
+	mapProductEntityToProductResponse(&Response, product)
 	return Response, Error
 }
 
@@ -104,6 +97,11 @@ func (Repository ProductRepositoryImpl) DeleteProductById(Id int64) (Error error
 		return Error
 	}
 	return Error
+}
+
+func (Repository ProductRepositoryImpl) CountProducts() (Result int64, Error error) {
+	Error = Repository.Mysql.Model(&entity.Product{}).Count(&Result).Error
+	return Result, Error
 }
 
 func NewProductRepository(Mysql *gorm.DB) ProductRepository {

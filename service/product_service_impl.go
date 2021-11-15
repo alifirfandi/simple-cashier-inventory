@@ -2,8 +2,10 @@ package service
 
 import (
 	"fmt"
+	"math"
 	"mime/multipart"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/alifirfandi/simple-cashier-inventory/helper"
@@ -33,10 +35,42 @@ func (Service ProductServiceImpl) InsertProduct(Request model.ProductRequest, Fi
 	return Response, Error
 }
 
-func (Service ProductServiceImpl) GetAllProducts() (Response model.ProductListResponse, Error error) {
-	products, Error := Service.ProductRepository.GetAllProducts()
+func (Service ProductServiceImpl) GetAllProducts(Query model.ProductRequestQuery) (Response model.ProductListResponse, Error error) {
+	limit, Error := strconv.Atoi(os.Getenv("LIMIT_PER_PAGE"))
+	if Error != nil {
+		return Response, Error
+	}
+
+	sort, sortBy := helper.SplitLastStr(Query.Sort, "_")
+	page := (Query.Page - 1) * limit
+
+	products, Error := Service.ProductRepository.GetAllProducts(model.ProductSelectQuery{
+		Search: fmt.Sprintf(`%%%s%%`, Query.Q),
+		Sort: struct {
+			Field string
+			By    string
+		}{
+			Field: sort,
+			By:    sortBy,
+		},
+		Start: page,
+		Limit: limit,
+	})
+	if Error != nil {
+		return Response, Error
+	}
+
+	productsCount, Error := Service.ProductRepository.CountProducts()
+	if Error != nil {
+		return Response, Error
+	}
+
 	Response = model.ProductListResponse{
-		Products: products,
+		TotalData:    int(productsCount),
+		TotalPage:    int(math.Ceil(float64(productsCount) / float64(limit))),
+		CurrentPage:  Query.Page,
+		LimitPerPage: limit,
+		Products:     products,
 	}
 
 	return Response, Error

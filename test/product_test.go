@@ -295,11 +295,200 @@ func TestGetAllProducts(t *testing.T) {
 			testName: "Get All Product Success",
 			setup: func(req *http.Request) {
 				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
-
 				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
 			},
 			method:             "GET",
 			url:                "/product",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success",
+			setup: func(req *http.Request) {
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?q=Product%20Name'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?q=Product%20Name",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?page=1'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?page=1",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?sort=name_asc'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?sort=name_asc",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?sort=name_desc'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?sort=name_desc",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?sort=created_at_asc'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?sort=created_at_asc",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?sort=created_at_desc'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?sort=created_at_desc",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?sort=updated_at_asc'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?sort=updated_at_desc",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?sort=price_asc'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?sort=price_asc",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
+			testName: "Get All Product Success, With Query '?sort=price_desc'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?sort=price_desc",
 			expectedStatusCode: http.StatusOK,
 		},
 		{

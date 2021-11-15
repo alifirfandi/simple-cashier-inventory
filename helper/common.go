@@ -37,3 +37,18 @@ func RandString(n int) string {
 
 	return sb.String()
 }
+
+// SplitLastStr
+//
+// Ref: Split a string at the last occurrence of the separator in golang
+// https://stackoverflow.com/questions/51598250/split-a-string-at-the-last-occurrence-of-the-separator-in-golang
+func SplitLastStr(s, sep string) (firstSub string, lastSub string) {
+	lastInd := strings.LastIndex(s, sep)
+	if lastInd < 0 {
+		firstSub = ""
+		lastSub = ""
+	}
+	firstSub = s[:lastInd]
+	lastSub = s[lastInd+1:]
+	return
+}

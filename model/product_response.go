@@ -1,17 +1,13 @@
 package model
 
-import (
-	"time"
-)
-
 type ProductResponse struct {
-	Id        int64     `json:"id"`
-	Name      string    `json:"name"`
-	ImageUrl  string    `json:"image_url"`
-	Price     int       `json:"price"`
-	Stock     int       `json:"stock"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	Id        int64  `json:"id"`
+	Name      string `json:"name"`
+	ImageUrl  string `json:"image_url"`
+	Price     int    `json:"price"`
+	Stock     int    `json:"stock"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
 }
 
 type ProductListResponse struct {

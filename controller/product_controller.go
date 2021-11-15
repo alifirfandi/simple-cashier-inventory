@@ -37,7 +37,22 @@ func (Controller ProductController) CreateProduct(c *fiber.Ctx) error {
 }
 
 func (Controller ProductController) GetAllProducts(c *fiber.Ctx) error {
-	response, err := Controller.ProductService.GetAllProducts()
+	query := new(model.ProductRequestQuery)
+	if err := c.QueryParser(query); err != nil {
+		return exception.ErrorHandler(c, err)
+	}
+	if query.Sort == "" {
+		query.Sort = "id_asc"
+	}
+	if query.Page <= 0 {
+		query.Page = 1
+	}
+
+	response, err := Controller.ProductService.GetAllProducts(model.ProductRequestQuery{
+		Q:    query.Q,
+		Sort: query.Sort,
+		Page: query.Page,
+	})
 	if err != nil {
 		return exception.ErrorHandler(c, err)
 	}
