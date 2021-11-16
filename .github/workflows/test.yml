@@ -50,6 +50,9 @@ jobs:
         run: |
           cp .env .env.test
           echo "FILE_LOCATION=../public/img" >> .env.test
+      
+      - name: Import Database
+        run: mysql -u admin -p test_database < docs/simple_cashier_inventory.sql
 
       - name: Installing Dependencies
         run: go mod download
