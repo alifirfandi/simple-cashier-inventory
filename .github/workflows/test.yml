@@ -35,8 +35,7 @@ jobs:
         run: docker exec -i some-mysql mysql -uadmin -prootpass test_database < docs/simple_cashier_inventory.sql
 
       - name: Install wkhtmltopdf
-        run: |
-          apt install fixtures/wkhtml.deb
+        run: sudo apt install ./fixtures/wkhtml.deb
 
       - name: Create .env
         run: |
