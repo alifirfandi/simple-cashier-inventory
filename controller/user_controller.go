@@ -71,8 +71,8 @@ func (Controller UserController) GetUserDetail(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusOK).JSON(model.Response{
-			Code:   fiber.StatusOK,
+		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+			Code:   fiber.StatusBadRequest,
 			Status: "BAD_REQUEST",
 			Data:   nil,
 			Error: map[string]string{
@@ -101,8 +101,8 @@ func (Controller UserController) UpdateUser(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusOK).JSON(model.Response{
-			Code:   fiber.StatusOK,
+		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+			Code:   fiber.StatusBadRequest,
 			Status: "BAD_REQUEST",
 			Data:   nil,
 			Error: map[string]string{
@@ -144,8 +144,8 @@ func (Controller UserController) DeleteUser(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusOK).JSON(model.Response{
-			Code:   fiber.StatusOK,
+		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+			Code:   fiber.StatusBadRequest,
 			Status: "BAD_REQUEST",
 			Data:   nil,
 			Error: map[string]string{

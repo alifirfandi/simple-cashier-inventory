@@ -14,7 +14,10 @@ require (
 	gorm.io/gorm v1.22.2
 )
 
-require github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+require (
+	github.com/SebastiaanKlippert/go-wkhtmltopdf v1.7.2
+	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+)
 
 require (
 	github.com/andybalholm/brotli v1.0.2 // indirect

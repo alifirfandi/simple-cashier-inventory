@@ -4,3 +4,5 @@
 
 public/img/*
 !public/img/.gitkeep
+public/pdf/*
+!public/pdf/.gitkeep

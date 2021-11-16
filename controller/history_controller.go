@@ -19,6 +19,9 @@ func (Controller HistoryController) GetHistoryList(c *fiber.Ctx) error {
 	if err := c.QueryParser(query); err != nil {
 		return exception.ErrorHandler(c, err)
 	}
+	if query.Page <= 0 {
+		query.Page = 1
+	}
 	if query.StartDate != "" {
 		query.StartDate = fmt.Sprintf("%sT00:00:00Z", query.StartDate)
 	}
@@ -59,10 +62,26 @@ func (Controller HistoryController) GetHistoryDetail(c *fiber.Ctx) error {
 	})
 }
 
+func (Controller HistoryController) ExportHistoryToPdf(c *fiber.Ctx) error {
+	invoice := c.Params("invoice")
+	response, err := Controller.Service.ExportPdfByInvoice(invoice)
+	if err != nil {
+		return exception.ErrorHandler(c, err)
+	}
+
+	return c.Status(fiber.StatusOK).JSON(model.Response{
+		Code:   fiber.StatusOK,
+		Status: "OK",
+		Data:   response,
+		Error:  nil,
+	})
+}
+
 func (Controller HistoryController) Route(App fiber.Router) {
 	router := App.Group("/history")
 	router.Get("", middleware.CheckToken(), middleware.CheckRole("ADMIN,SUPERADMIN"), Controller.GetHistoryList)
 	router.Get("/:invoice", middleware.CheckToken(), middleware.CheckRole("ADMIN,SUPERADMIN"), Controller.GetHistoryDetail)
+	router.Get("pdf/:invoice", middleware.CheckToken(), middleware.CheckRole("ADMIN,SUPERADMIN"), Controller.ExportHistoryToPdf)
 }
 
 func NewHistoryController(Service *service.HistoryService) HistoryController {

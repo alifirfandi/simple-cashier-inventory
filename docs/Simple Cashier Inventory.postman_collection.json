@@ -754,7 +754,7 @@
 							"variable": [
 								{
 									"key": "invoice",
-									"value": "invoice"
+									"value": "string"
 								}
 							]
 						}
@@ -789,7 +789,7 @@
 							"variable": [
 								{
 									"key": "invoice",
-									"value": null
+									"value": "string"
 								}
 							]
 						}
