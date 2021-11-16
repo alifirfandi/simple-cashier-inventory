@@ -52,7 +52,7 @@ jobs:
           echo "FILE_LOCATION=../public/img" >> .env.test
       
       - name: Import Database
-        run: docker exec -i some-mysql mysql -uadmin -prootpass mysql < docs/simple_cashier_inventory.sql
+        run: docker exec -i some-mysql mysql -uadmin -prootpass test_database < docs/simple_cashier_inventory.sql
 
       - name: Installing Dependencies
         run: go mod download
