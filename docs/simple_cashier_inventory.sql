@@ -164,8 +164,6 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES (1,'Super Admin','superadmin@golang.com','$2a$14$Jwe3YurEbLcjVZTLqKUFHeLBKnWd2sV2dZd1UIqhmPRO4SqGVbCtS','SUPERADMIN','2021-11-13 07:26:59','2021-11-13 07:26:59',NULL);
-INSERT INTO `users` VALUES (4,'Name','email5@email.com','$2a$10$lCvFYZ88dg.C1t8KsOd2qOacNnGC/8/tT8Vnryrc2rJJ/hQijiRQ6','','2021-11-13 07:42:58','2021-11-13 07:42:58',NULL);
-INSERT INTO `users` VALUES (5,'Name','email7@email.com','$2a$10$qj1epV62t9sJDE.xiAp59er2OPPqTYnwzUrgtq2VVhN/wGmlSOnAm','','2021-11-13 07:42:59','2021-11-13 07:42:59',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
