@@ -21,7 +21,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: rootpass
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 --name=some-mysql
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 --name some-mysql
     steps:
       - name: Checkout go
         uses: actions/checkout@v2
@@ -52,7 +52,7 @@ jobs:
           echo "FILE_LOCATION=../public/img" >> .env.test
       
       - name: Import Database
-        run: docker exec -i some-mysql mysql -uroot -psecret mysql < db.sql
+        run: docker exec -i some-mysql mysql -uroot -psecret mysql < docs/simple_cashier_inventory.sql
 
       - name: Installing Dependencies
         run: go mod download
