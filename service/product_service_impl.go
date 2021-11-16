@@ -45,16 +45,11 @@ func (Service ProductServiceImpl) GetAllProducts(Query model.ProductRequestQuery
 	page := (Query.Page - 1) * limit
 
 	products, Error := Service.ProductRepository.GetAllProducts(model.ProductSelectQuery{
-		Search: fmt.Sprintf(`%%%s%%`, Query.Q),
-		Sort: struct {
-			Field string
-			By    string
-		}{
-			Field: sort,
-			By:    sortBy,
-		},
-		Start: page,
-		Limit: limit,
+		Search:    fmt.Sprintf(`%%%s%%`, Query.Q),
+		SortField: sort,
+		SortBy:    sortBy,
+		Start:     page,
+		Limit:     limit,
 	})
 	if Error != nil {
 		return Response, Error

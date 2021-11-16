@@ -2,7 +2,6 @@ package controller
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/alifirfandi/simple-cashier-inventory/exception"
 	"github.com/alifirfandi/simple-cashier-inventory/middleware"
@@ -20,14 +19,10 @@ func (Controller HistoryController) GetHistoryList(c *fiber.Ctx) error {
 	if err := c.QueryParser(query); err != nil {
 		return exception.ErrorHandler(c, err)
 	}
-	if query.StartDate == "" {
-		query.StartDate = time.Now().Format(time.RFC3339)
-	} else {
+	if query.StartDate != "" {
 		query.StartDate = fmt.Sprintf("%sT00:00:00Z", query.StartDate)
 	}
-	if query.EndDate == "" {
-		query.StartDate = time.Now().Format(time.RFC3339)
-	} else {
+	if query.EndDate != "" {
 		query.EndDate = fmt.Sprintf("%sT00:00:00Z", query.EndDate)
 	}
 

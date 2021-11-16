@@ -743,11 +743,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{V1APIURL}}history/:invoice",
+							"raw": "{{V1APIURL}}/history/:invoice",
 							"host": [
-								"{{V1APIURL}}history"
+								"{{V1APIURL}}"
 							],
 							"path": [
+								"history",
 								":invoice"
 							],
 							"variable": [

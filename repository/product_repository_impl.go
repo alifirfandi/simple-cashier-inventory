@@ -42,7 +42,7 @@ func (Repository ProductRepositoryImpl) InsertProduct(Request model.ProductReque
 
 func (Repository ProductRepositoryImpl) GetAllProducts(Query model.ProductSelectQuery) (Response []model.ProductResponse, Error error) {
 	var products []entity.Product
-	Error = Repository.Mysql.Where("name LIKE ? AND deleted_at IS NULL", Query.Search).Order(fmt.Sprintf("%s %s", Query.Sort.Field, Query.Sort.By)).Limit(Query.Limit).Offset(Query.Start).Find(&products).Error
+	Error = Repository.Mysql.Where("name LIKE ? AND deleted_at IS NULL", Query.Search).Order(fmt.Sprintf("%s %s", Query.SortField, Query.SortBy)).Limit(Query.Limit).Offset(Query.Start).Find(&products).Error
 	if Error != nil {
 		return Response, Error
 	}

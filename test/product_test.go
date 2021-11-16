@@ -492,6 +492,26 @@ func TestGetAllProducts(t *testing.T) {
 			expectedStatusCode: http.StatusOK,
 		},
 		{
+			testName: "Get All Product Success, With Query '?q=Product%20Name&page=1&sort=name_desc'",
+			setup: func(req *http.Request) {
+				products := make([]entity.Product, 15)
+				for i := 0; i < len(products); i++ {
+					products[i] = entity.Product{
+						Name:  "Product Name",
+						Price: 1,
+						Stock: 1,
+					}
+				}
+				gormDb.Create(&products)
+
+				res, _, _ := authService.Login(model.AuthRequest{Email: "superadmin@golang.com", Password: "12345678"})
+				req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", res.AccessToken))
+			},
+			method:             "GET",
+			url:                "/product?q=Product%20Name&page=1&sort=name_desc",
+			expectedStatusCode: http.StatusOK,
+		},
+		{
 			testName:           "Get All Product Fail, No Token Provided",
 			setup:              func(req *http.Request) {},
 			method:             "GET",

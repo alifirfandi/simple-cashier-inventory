@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/alifirfandi/simple-cashier-inventory/entity"
@@ -37,7 +39,17 @@ type HistoryRepositoryImpl struct {
 
 func (Repository HistoryRepositoryImpl) GetAllHistories(Query model.HistorySelectQuery) (Response []model.HistoryResponse, Error error) {
 	var transactions []entity.Transaction
-	Error = Repository.Mysql.Where("deleted_at IS NULL AND created_at BETWEEN ? AND ?", Query.StartDate, Query.EndDate).Limit(Query.Limit).Offset(Query.Start).Preload("TransactionDetails.Product").Find(&transactions).Error
+
+	var q strings.Builder
+	q.WriteString("deleted_at IS NULL AND invoice LIKE ?")
+	if Query.StartDate != "" {
+		q.WriteString(fmt.Sprintf(" AND created_at >= '%s'", Query.StartDate))
+	}
+	if Query.EndDate != "" {
+		q.WriteString(fmt.Sprintf(" AND created_at <= '%s'", Query.EndDate))
+	}
+
+	Error = Repository.Mysql.Where(q.String(), Query.Search).Limit(Query.Limit).Offset(Query.Start).Preload("TransactionDetails.Product").Preload("Admin").Find(&transactions).Error
 	if Error != nil {
 		return Response, Error
 	}
@@ -51,7 +63,7 @@ func (Repository HistoryRepositoryImpl) GetAllHistories(Query model.HistorySelec
 
 func (Repository HistoryRepositoryImpl) GetHistoryByInvoice(Invoice string) (Response model.HistoryResponse, Error error) {
 	var transaction entity.Transaction
-	if Error = Repository.Mysql.Where("invoice = ? AND deleted_at IS NULL", Invoice).First(&transaction).Error; Error != nil {
+	if Error = Repository.Mysql.Where("invoice = ? AND deleted_at IS NULL", Invoice).Preload("Admin").First(&transaction).Error; Error != nil {
 		return Response, Error
 	}
 	mapTrxEntityToHistoryResponse(&Response, transaction)

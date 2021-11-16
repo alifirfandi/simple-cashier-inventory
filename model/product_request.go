@@ -14,11 +14,9 @@ type ProductRequestQuery struct {
 }
 
 type ProductSelectQuery struct {
-	Search string
-	Sort   struct {
-		Field string
-		By    string
-	}
-	Start int
-	Limit int
+	Search    string
+	SortField string
+	SortBy    string
+	Start     int
+	Limit     int
 }
