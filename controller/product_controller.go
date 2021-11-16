@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"strings"
+
 	"github.com/alifirfandi/simple-cashier-inventory/exception"
 	"github.com/alifirfandi/simple-cashier-inventory/middleware"
 	"github.com/alifirfandi/simple-cashier-inventory/model"
@@ -43,6 +45,18 @@ func (Controller ProductController) GetAllProducts(c *fiber.Ctx) error {
 	}
 	if query.Sort == "" {
 		query.Sort = "id_asc"
+	} else {
+		ind := strings.Index("id_asc,name_asc,name_desc,created_at_asc,created_at_desc,updated_at_asc,updated_at_desc,price_asc,price_desc", query.Sort)
+		if ind < 0 {
+			return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+				Code:   fiber.StatusBadRequest,
+				Status: "BAD_REQUEST",
+				Data:   nil,
+				Error: map[string]string{
+					"sort": "INVALID_SORT",
+				},
+			})
+		}
 	}
 	if query.Page <= 0 {
 		query.Page = 1
@@ -72,8 +86,8 @@ func (Controller ProductController) GetProductDetail(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusOK).JSON(model.Response{
-			Code:   fiber.StatusOK,
+		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+			Code:   fiber.StatusBadRequest,
 			Status: "BAD_REQUEST",
 			Data:   nil,
 			Error: map[string]string{
@@ -102,8 +116,8 @@ func (Controller ProductController) UpdateProduct(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusOK).JSON(model.Response{
-			Code:   fiber.StatusOK,
+		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+			Code:   fiber.StatusBadRequest,
 			Status: "BAD_REQUEST",
 			Data:   nil,
 			Error: map[string]string{
@@ -146,8 +160,8 @@ func (Controller ProductController) DeleteProduct(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusOK).JSON(model.Response{
-			Code:   fiber.StatusOK,
+		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+			Code:   fiber.StatusBadRequest,
 			Status: "BAD_REQUEST",
 			Data:   nil,
 			Error: map[string]string{

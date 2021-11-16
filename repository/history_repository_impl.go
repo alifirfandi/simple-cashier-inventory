@@ -63,7 +63,8 @@ func (Repository HistoryRepositoryImpl) GetAllHistories(Query model.HistorySelec
 
 func (Repository HistoryRepositoryImpl) GetHistoryByInvoice(Invoice string) (Response model.HistoryResponse, Error error) {
 	var transaction entity.Transaction
-	if Error = Repository.Mysql.Where("invoice = ? AND deleted_at IS NULL", Invoice).Preload("Admin").First(&transaction).Error; Error != nil {
+	Error = Repository.Mysql.Where("invoice = ? AND deleted_at IS NULL", Invoice).Preload("TransactionDetails.Product").Preload("Admin").First(&transaction).Error
+	if Error != nil {
 		return Response, Error
 	}
 	mapTrxEntityToHistoryResponse(&Response, transaction)

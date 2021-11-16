@@ -3,10 +3,9 @@ package main
 import (
 	"os"
 
-	"github.com/alifirfandi/simple-cashier-inventory/exception"
-
 	"github.com/alifirfandi/simple-cashier-inventory/config"
 	"github.com/alifirfandi/simple-cashier-inventory/controller"
+	"github.com/alifirfandi/simple-cashier-inventory/exception"
 	"github.com/alifirfandi/simple-cashier-inventory/repository"
 	"github.com/alifirfandi/simple-cashier-inventory/service"
 	"github.com/gofiber/fiber/v2"
