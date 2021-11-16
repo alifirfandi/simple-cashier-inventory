@@ -83,6 +83,12 @@
 									"value": "string",
 									"description": "[OPT]",
 									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "[OPT]",
+									"disabled": true
 								}
 							]
 						}
@@ -472,6 +478,12 @@
 									"value": "string",
 									"description": "[OPT] name_asc, name_desc, created_at_asc, created_at_desc, updated_at_asc, updated_at_desc, price_asc, price_desc",
 									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "[OPT]",
+									"disabled": true
 								}
 							]
 						}
@@ -703,6 +715,12 @@
 									"value": "string_date",
 									"description": "[OPT]",
 									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "[OPT]",
+									"disabled": true
 								}
 							]
 						}
@@ -725,11 +743,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{V1APIURL}}history/:invoice",
+							"raw": "{{V1APIURL}}/history/:invoice",
 							"host": [
-								"{{V1APIURL}}history"
+								"{{V1APIURL}}"
 							],
 							"path": [
+								"history",
 								":invoice"
 							],
 							"variable": [
