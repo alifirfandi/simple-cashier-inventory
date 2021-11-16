@@ -1,10 +1,12 @@
 package service
 
 import (
+	"fmt"
 	"github.com/alifirfandi/simple-cashier-inventory/helper"
 	"github.com/alifirfandi/simple-cashier-inventory/model"
 	"github.com/alifirfandi/simple-cashier-inventory/repository"
 	"github.com/alifirfandi/simple-cashier-inventory/validation"
+	"math"
 	"os"
 	"strconv"
 )
@@ -34,14 +36,17 @@ func (Service UserServiceImpl) GetAllUser(QueryParams model.UserSelectQuery) (Re
 		QueryParams.Page = 1
 	}
 
-	users, TotalData, Error := Service.UserRepository.GetAllUser(QueryParams)
+	QueryParams.Q = fmt.Sprintf("%%%s%%", QueryParams.Q)
 
-	limirPerPage, _ := strconv.Atoi(os.Getenv("LIMIT_PAGE"))
+	limitPerPage, Error := strconv.Atoi(os.Getenv("LIMIT_PER_PAGE"))
+	QueryParams.Page = (QueryParams.Page - 1) * limitPerPage
+
+	users, TotalData, Error := Service.UserRepository.GetAllUser(QueryParams)
 
 	Response = model.UserListResponse{
 		TotalData:    TotalData,
-		TotalPage:    (int(TotalData) / limirPerPage) + 1,
-		LimitPerPage: limirPerPage,
+		TotalPage:    int(math.Ceil(float64(TotalData) / float64(limitPerPage))),
+		LimitPerPage: limitPerPage,
 		CurrentPage:  QueryParams.Page,
 		Users:        users,
 	}

@@ -8,6 +8,7 @@ type UserRequest struct {
 }
 
 type UserSelectQuery struct {
-	Page int    `query:"page"`
-	Q    string `query:"q"`
+	Page  int `query:"page"`
+	Limit int
+	Q     string `query:"q"`
 }

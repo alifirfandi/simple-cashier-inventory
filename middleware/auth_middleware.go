@@ -18,6 +18,7 @@ type DecodedStructure struct {
 	Id    uint64 `json:"id"`
 	Email string `json:"email"`
 	Role  string `json:"role"`
+	Name  string `json:"name"`
 }
 
 func ValidateToken(encodedToken string) (*jwt.Token, error) {
@@ -86,6 +87,7 @@ func CheckToken() func(*fiber.Ctx) error {
 
 		// extract data from token
 		decodedRes, err := DecodeToken(tokenString)
+		fmt.Println(decodedRes)
 		if err != nil {
 			fmt.Println(err)
 			response := model.Response{
@@ -102,6 +104,7 @@ func CheckToken() func(*fiber.Ctx) error {
 		c.Locals("id", decodedRes.Id)
 		c.Locals("email", decodedRes.Email)
 		c.Locals("currentRole", decodedRes.Role)
+		c.Locals("name", decodedRes.Name)
 		return c.Next()
 	}
 }

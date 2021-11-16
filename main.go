@@ -19,16 +19,19 @@ func main() {
 	userRepository := repository.NewUserRepository(mysql)
 	productRepository := repository.NewProductRepository(mysql)
 	historyRepository := repository.NewHistoryRepository(mysql)
+	transactionRepository := repository.NewTransactionRepository(mysql)
 
 	authService := service.NewAuthService(&authRepository)
 	userService := service.NewUserService(&userRepository)
 	productService := service.NewProductService(&productRepository)
 	historyService := service.NewHistoryService(&historyRepository)
+	transactionService := service.NewTransactionService(&transactionRepository)
 
 	authController := controller.NewAuthController(&authService)
 	userController := controller.NewUserController(&userService)
 	productController := controller.NewProductController(&productService)
 	historyController := controller.NewHistoryController(&historyService)
+	transactionController := controller.NewTransactionController(&transactionService)
 
 	app := fiber.New(config.NewFiberConfig())
 	app.Use(recover.New())
@@ -38,6 +41,7 @@ func main() {
 	userController.Route(v1)
 	productController.Route(v1)
 	historyController.Route(v1)
+	transactionController.Route(v1)
 
 	// Start App
 	err := app.Listen(os.Getenv("PORT"))

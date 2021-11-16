@@ -1,12 +1,9 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/alifirfandi/simple-cashier-inventory/entity"
 	"github.com/alifirfandi/simple-cashier-inventory/model"
 	"gorm.io/gorm"
-	"os"
-	"strconv"
 	"time"
 )
 
@@ -45,11 +42,6 @@ func (Repository UserRepositoryImpl) GetAllUser(QueryParams model.UserSelectQuer
 	var users []entity.User
 	var TotalDataCount int64
 
-	QueryParams.Q = fmt.Sprintf("%%%s%%", QueryParams.Q)
-
-	limirPerPage, _ := strconv.Atoi(os.Getenv("LIMIT_PAGE"))
-	QueryParams.Page = (QueryParams.Page - 1) * limirPerPage
-
 	if Error = Repository.Mysql.Table("users").Where("deleted_at IS NULL AND (name LIKE ? OR email LIKE ?)", QueryParams.Q, QueryParams.Q).Count(&TotalDataCount).Error; Error != nil {
 		return Response, 0, Error
 	}
@@ -61,8 +53,8 @@ func (Repository UserRepositoryImpl) GetAllUser(QueryParams model.UserSelectQuer
 	}
 
 	Response = make([]model.UserResponse, len(users))
-	for i, product := range users {
-		mapUserEntityToUserResponse(&Response[i], product)
+	for i, user := range users {
+		mapUserEntityToUserResponse(&Response[i], user)
 	}
 	return Response, TotalDataCount, Error
 }
