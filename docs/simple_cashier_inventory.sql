@@ -73,7 +73,6 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Product Name','',1,1,'2021-11-15 23:20:58','2021-11-15 23:20:59','2021-11-15 23:20:59');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 

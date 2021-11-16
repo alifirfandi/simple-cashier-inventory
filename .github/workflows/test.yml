@@ -10,42 +10,46 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    container: golang:1.17.3-alpine
     services:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_DATABASE: simple_cashier_inventory
+          MYSQL_DATABASE: test_database
           MYSQL_HOST: 127.0.0.1
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: rootpass
+          MYSQL_ROOT_PASSWORD: rootpass
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
+      - name: Checkout go
+        uses: actions/checkout@v2
+
+      - name: Setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17.x
+
       - name: Create .env
         run: |
-          echo PORT=:3000 > .env
-          echo MYSQL_HOST=root:root@tcp(localhost:3306)/simple_cashier_inventory?parseTime=true >> .env
-          echo MYSQL_POOL_MIN=10 >> .env
-          echo MYSQL_POOL_MAX=100 >> .env
-          echo MYSQL_MAX_IDLE_TIME_MINUTE=1 >> .env
-          echo MYSQL_MAX_LIFE_TIME_MINUTE=10 >> .env
-          echo MYSQL_IDLE_MAX=10 >> .env
-          echo MYSQL_MAX_LIFE_TIME_MINUTE=10 >> .env
-          echo MYSQL_MAX_IDLE_TIME_MINUTE=10 >> .env
-          echo JWT_SECRET_KEY=4f62uGVPzL7HB4xKTdr9vtIrFtLt65Jp >> .env
-          echo FILE_LOCATION=public/img >> .env
-          echo LIMIT_PER_PAGE=10 >> .env
+          echo "PORT=:3000" > .env
+          echo "MYSQL_HOST=admin:rootpass@tcp(localhost:3306)/test_database?parseTime=true" >> .env
+          echo "MYSQL_POOL_MIN=10" >> .env
+          echo "MYSQL_POOL_MAX=100" >> .env
+          echo "MYSQL_MAX_IDLE_TIME_MINUTE=1" >> .env
+          echo "MYSQL_MAX_LIFE_TIME_MINUTE=10" >> .env
+          echo "MYSQL_IDLE_MAX=10" >> .env
+          echo "MYSQL_MAX_LIFE_TIME_MINUTE=10" >> .env
+          echo "MYSQL_MAX_IDLE_TIME_MINUTE=10" >> .env
+          echo "JWT_SECRET_KEY=4f62uGVPzL7HB4xKTdr9vtIrFtLt65Jp" >> .env
+          echo "FILE_LOCATION=public/img" >> .env
+          echo "LIMIT_PER_PAGE=10" >> .env
 
       - name: Create .env.test
         run: |
           cp .env .env.test
-          echo FILE_LOCATION=../public/img >> .env.test
-
-      - name: Checkout go
-        uses: actions/checkout@v2
+          echo "FILE_LOCATION=../public/img" >> .env.test
 
       - name: Installing Dependencies
         run: go mod download
