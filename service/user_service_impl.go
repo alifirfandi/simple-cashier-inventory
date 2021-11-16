@@ -36,12 +36,12 @@ func (Service UserServiceImpl) GetAllUser(QueryParams model.UserSelectQuery) (Re
 		QueryParams.Page = 1
 	}
 
+	QueryParams.Q = fmt.Sprintf("%%%s%%", QueryParams.Q)
+
+	limitPerPage, Error := strconv.Atoi(os.Getenv("LIMIT_PER_PAGE"))
+	QueryParams.Page = (QueryParams.Page - 1) * limitPerPage
+
 	users, TotalData, Error := Service.UserRepository.GetAllUser(QueryParams)
-
-	limitPerPage, _ := strconv.Atoi(os.Getenv("LIMIT_PER_PAGE"))
-
-	fmt.Println(TotalData)
-	fmt.Println(limitPerPage)
 
 	Response = model.UserListResponse{
 		TotalData:    TotalData,

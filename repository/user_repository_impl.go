@@ -1,12 +1,9 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/alifirfandi/simple-cashier-inventory/entity"
 	"github.com/alifirfandi/simple-cashier-inventory/model"
 	"gorm.io/gorm"
-	"os"
-	"strconv"
 	"time"
 )
 
@@ -44,11 +41,6 @@ func (Repository UserRepositoryImpl) InsertUser(Request model.UserRequest) (Resp
 func (Repository UserRepositoryImpl) GetAllUser(QueryParams model.UserSelectQuery) (Response []model.UserResponse, TotalData int64, Error error) {
 	var users []entity.User
 	var TotalDataCount int64
-
-	QueryParams.Q = fmt.Sprintf("%%%s%%", QueryParams.Q)
-
-	limitPerPage, Error := strconv.Atoi(os.Getenv("LIMIT_PER_PAGE"))
-	QueryParams.Page = (QueryParams.Page - 1) * limitPerPage
 
 	if Error = Repository.Mysql.Table("users").Where("deleted_at IS NULL AND (name LIKE ? OR email LIKE ?)", QueryParams.Q, QueryParams.Q).Count(&TotalDataCount).Error; Error != nil {
 		return Response, 0, Error
