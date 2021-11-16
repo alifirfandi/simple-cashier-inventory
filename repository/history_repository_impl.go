@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func mapTrxDetailEntityToHistoryDetailResponse(historyDetailResponse *model.TransactionResponse, trxEntityDetail entity.TransactionDetail) {
+func mapTrxDetailEntityToHistoryDetailResponse(historyDetailResponse *model.TransactionDetailResponse, trxEntityDetail entity.TransactionDetail) {
 	historyDetailResponse.Id = trxEntityDetail.Id
 	historyDetailResponse.ProductId = trxEntityDetail.ProductId
 	historyDetailResponse.Name = trxEntityDetail.Product.Name
@@ -22,7 +22,7 @@ func mapTrxDetailEntityToHistoryDetailResponse(historyDetailResponse *model.Tran
 
 func mapTrxEntityToHistoryResponse(historyResponse *model.HistoryResponse, transactionEntity entity.Transaction) {
 	historyResponse.Invoice = transactionEntity.Invoice
-	historyResponse.Details = make([]model.TransactionResponse, len(transactionEntity.TransactionDetails))
+	historyResponse.Details = make([]model.TransactionDetailResponse, len(transactionEntity.TransactionDetails))
 	for i, detail := range transactionEntity.TransactionDetails {
 		mapTrxDetailEntityToHistoryDetailResponse(&historyResponse.Details[i], detail)
 	}

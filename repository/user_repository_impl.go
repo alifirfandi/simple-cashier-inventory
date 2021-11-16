@@ -47,8 +47,8 @@ func (Repository UserRepositoryImpl) GetAllUser(QueryParams model.UserSelectQuer
 
 	QueryParams.Q = fmt.Sprintf("%%%s%%", QueryParams.Q)
 
-	limirPerPage, _ := strconv.Atoi(os.Getenv("LIMIT_PAGE"))
-	QueryParams.Page = (QueryParams.Page - 1) * limirPerPage
+	limitPerPage, Error := strconv.Atoi(os.Getenv("LIMIT_PER_PAGE"))
+	QueryParams.Page = (QueryParams.Page - 1) * limitPerPage
 
 	if Error = Repository.Mysql.Table("users").Where("deleted_at IS NULL AND (name LIKE ? OR email LIKE ?)", QueryParams.Q, QueryParams.Q).Count(&TotalDataCount).Error; Error != nil {
 		return Response, 0, Error
@@ -61,8 +61,8 @@ func (Repository UserRepositoryImpl) GetAllUser(QueryParams model.UserSelectQuer
 	}
 
 	Response = make([]model.UserResponse, len(users))
-	for i, product := range users {
-		mapUserEntityToUserResponse(&Response[i], product)
+	for i, user := range users {
+		mapUserEntityToUserResponse(&Response[i], user)
 	}
 	return Response, TotalDataCount, Error
 }

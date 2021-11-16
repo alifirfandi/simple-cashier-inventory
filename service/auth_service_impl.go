@@ -33,6 +33,7 @@ func (Service AuthServiceImpl) Login(Request model.AuthRequest) (Response model.
 				"id":    Response.Id,
 				"email": Response.Email,
 				"role":  Response.Role,
+				"name":  Response.Name,
 			})
 			Response.AccessToken = accessToken
 			return Response, true, Error
