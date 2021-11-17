@@ -81,8 +81,7 @@ func (Service HistoryServiceImpl) ExportPdfByInvoice(Invoice string) (Response s
 	if Error != nil {
 		return "", Error
 	}
-
-	return "", Error
+	return fmt.Sprintf("%s/public/pdf/%s", os.Getenv("HOST_ADDRESS"), fileName), Error
 }
 
 func NewHistoryService(Repository *repository.HistoryRepository) HistoryService {

@@ -100,7 +100,7 @@ func (Repository ProductRepositoryImpl) DeleteProductById(Id int64) (Error error
 }
 
 func (Repository ProductRepositoryImpl) CountProducts() (Result int64, Error error) {
-	Error = Repository.Mysql.Model(&entity.Product{}).Count(&Result).Error
+	Error = Repository.Mysql.Model(&entity.Product{}).Where("deleted_at IS NULL").Count(&Result).Error
 	return Result, Error
 }
 

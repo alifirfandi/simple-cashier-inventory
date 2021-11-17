@@ -34,6 +34,7 @@ func main() {
 	transactionController := controller.NewTransactionController(&transactionService)
 
 	app := fiber.New(config.NewFiberConfig())
+	app.Static("/public", "./public")
 	app.Use(recover.New())
 
 	v1 := app.Group("/api/v1")

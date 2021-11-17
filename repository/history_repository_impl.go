@@ -72,7 +72,7 @@ func (Repository HistoryRepositoryImpl) GetHistoryByInvoice(Invoice string) (Res
 }
 
 func (Repository HistoryRepositoryImpl) CountHistories() (Result int64, Error error) {
-	Error = Repository.Mysql.Model(&entity.Transaction{}).Count(&Result).Error
+	Error = Repository.Mysql.Model(&entity.Transaction{}).Where("deleted_at IS NULL").Count(&Result).Error
 	return Result, Error
 }
 

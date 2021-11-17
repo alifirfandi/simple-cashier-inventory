@@ -29,6 +29,7 @@ func (Service ProductServiceImpl) InsertProduct(Request model.ProductRequest, Fi
 		if Error = helper.SaveFile(File, os.Getenv("FILE_LOCATION"), Request.ImageUrl); Error != nil {
 			return Response, Error
 		}
+		Request.ImageUrl = fmt.Sprintf("%s/public/img/%s", os.Getenv("HOST_ADDRESS"), Request.ImageUrl)
 	}
 
 	Response, Error = Service.ProductRepository.InsertProduct(Request)
@@ -86,6 +87,7 @@ func (Service ProductServiceImpl) UpdateProductById(Id int64, Request model.Prod
 		if Error = helper.SaveFile(File, os.Getenv("FILE_LOCATION"), Request.ImageUrl); Error != nil {
 			return Response, Error
 		}
+		Request.ImageUrl = fmt.Sprintf("%s/public/img/%s", os.Getenv("HOST_ADDRESS"), Request.ImageUrl)
 	}
 
 	Response, Error = Service.ProductRepository.UpdateProductById(Id, Request)

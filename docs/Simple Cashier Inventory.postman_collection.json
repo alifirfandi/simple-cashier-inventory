@@ -122,7 +122,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -191,7 +191,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Name\",\r\n    \"email\": \"email@email.com\",\r\n    \"password\": \"password\",\r\n    \"role\": \"ADMIN\"\r\n}"
+							"raw": "{\r\n    \"name\": \"New Name\",\r\n    \"email\": \"email@email.com\",\r\n    \"password\": \"new_password\",\r\n    \"role\": \"ADMIN\"\r\n}"
 						},
 						"url": {
 							"raw": "{{V1APIURL}}/admin/:id",

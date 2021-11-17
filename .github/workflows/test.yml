@@ -35,11 +35,17 @@ jobs:
         run: docker exec -i some-mysql mysql -uadmin -prootpass test_database < docs/simple_cashier_inventory.sql
 
       - name: Install wkhtmltopdf
-        run: sudo apt install ./fixtures/wkhtml.deb
+        run: |
+          sudo apt update
+          sudo apt upgrade
+          sudo apt install curl
+          curl "https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb" -L -o "wkhtml.deb"
+          sudo apt install ./wkhtml.deb
 
       - name: Create .env
         run: |
-          echo "PORT=:3000" > .env
+          echo "HOST_ADDRESS=http://localhost:3000" > .env
+          echo "PORT=:3000" >> .env
           echo "MYSQL_HOST=admin:rootpass@tcp(localhost:3306)/test_database?parseTime=true" >> .env
           echo "MYSQL_POOL_MIN=10" >> .env
           echo "MYSQL_POOL_MAX=100" >> .env
