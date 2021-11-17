@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-	"strings"
 	"time"
 
 	"github.com/alifirfandi/simple-cashier-inventory/entity"
@@ -40,16 +38,7 @@ type HistoryRepositoryImpl struct {
 func (Repository HistoryRepositoryImpl) GetAllHistories(Query model.HistorySelectQuery) (Response []model.HistoryResponse, Error error) {
 	var transactions []entity.Transaction
 
-	var q strings.Builder
-	q.WriteString("deleted_at IS NULL AND invoice LIKE ?")
-	if Query.StartDate != "" {
-		q.WriteString(fmt.Sprintf(" AND created_at >= '%s'", Query.StartDate))
-	}
-	if Query.EndDate != "" {
-		q.WriteString(fmt.Sprintf(" AND created_at <= '%s'", Query.EndDate))
-	}
-
-	Error = Repository.Mysql.Where(q.String(), Query.Search).Limit(Query.Limit).Offset(Query.Start).Preload("TransactionDetails.Product").Preload("Admin").Find(&transactions).Error
+	Error = Repository.Mysql.Where("deleted_at IS NULL AND invoice LIKE ? AND created_at BETWEEN ? AND ?", Query.Search, Query.StartDate, Query.EndDate).Limit(Query.Limit).Offset(Query.Start).Preload("TransactionDetails.Product").Preload("Admin").Find(&transactions).Error
 	if Error != nil {
 		return Response, Error
 	}
