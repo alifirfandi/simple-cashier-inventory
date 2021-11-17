@@ -8,4 +8,5 @@ type UserRepository interface {
 	GetUserById(Id int64) (Response model.UserResponse, Error error)
 	UpdateUser(Id int64, Request model.UserRequest) (Response model.UserResponse, Error error)
 	DeleteUser(Id int64) (Error error)
+	CheckUserExist(Email string) (userExist bool)
 }
