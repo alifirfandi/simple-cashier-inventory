@@ -37,6 +37,9 @@ func (Service ProductServiceImpl) InsertProduct(Request model.ProductRequest, Fi
 }
 
 func (Service ProductServiceImpl) GetAllProducts(Query model.ProductRequestQuery) (Response model.ProductListResponse, Error error) {
+	if Error = validation.SortProductsValidation(Query.Sort); Error != nil {
+		return Response, Error
+	}
 	limit, Error := strconv.Atoi(os.Getenv("LIMIT_PER_PAGE"))
 	if Error != nil {
 		return Response, Error

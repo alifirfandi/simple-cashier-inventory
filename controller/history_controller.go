@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/alifirfandi/simple-cashier-inventory/exception"
 	"github.com/alifirfandi/simple-cashier-inventory/middleware"
@@ -24,9 +25,13 @@ func (Controller HistoryController) GetHistoryList(c *fiber.Ctx) error {
 	}
 	if query.StartDate != "" {
 		query.StartDate = fmt.Sprintf("%sT00:00:00Z", query.StartDate)
+	} else {
+		query.StartDate = time.Now().Format(time.RFC3339)
 	}
 	if query.EndDate != "" {
 		query.EndDate = fmt.Sprintf("%sT00:00:00Z", query.EndDate)
+	} else {
+		query.EndDate = time.Now().Format(time.RFC3339)
 	}
 
 	response, err := Controller.Service.GetAllHistories(model.HistoryRequestQuery{
@@ -81,7 +86,7 @@ func (Controller HistoryController) Route(App fiber.Router) {
 	router := App.Group("/history")
 	router.Get("", middleware.CheckToken(), middleware.CheckRole("ADMIN,SUPERADMIN"), Controller.GetHistoryList)
 	router.Get("/:invoice", middleware.CheckToken(), middleware.CheckRole("ADMIN,SUPERADMIN"), Controller.GetHistoryDetail)
-	router.Get("pdf/:invoice", middleware.CheckToken(), middleware.CheckRole("ADMIN,SUPERADMIN"), Controller.ExportHistoryToPdf)
+	router.Get("/pdf/:invoice", middleware.CheckToken(), middleware.CheckRole("ADMIN,SUPERADMIN"), Controller.ExportHistoryToPdf)
 }
 
 func NewHistoryController(Service *service.HistoryService) HistoryController {
