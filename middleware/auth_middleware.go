@@ -87,7 +87,6 @@ func CheckToken() func(*fiber.Ctx) error {
 
 		// extract data from token
 		decodedRes, err := DecodeToken(tokenString)
-		fmt.Println(decodedRes)
 		if err != nil {
 			fmt.Println(err)
 			response := model.Response{

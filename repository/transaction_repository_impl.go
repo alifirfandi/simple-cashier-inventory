@@ -42,6 +42,7 @@ func mapTransactionDetailEntityToTransactionDetailResponse(transactionDetailResp
 
 func (Repository TransactionRepositoryImpl) InsertCart(Request model.CartRequest) (Response model.CartResponse, Error error) {
 	var cart entity.Cart
+	var cartExist entity.Cart
 	var product entity.Product
 
 	mapCartRequestToCartEntity(&cart, Request)
@@ -49,15 +50,33 @@ func (Repository TransactionRepositoryImpl) InsertCart(Request model.CartRequest
 		return Response, Error
 	}
 
-	if product.Stock < Request.Qty {
-		Error = errors.New("STOCK_UNAVAILABLE")
-		return Response, Error
+	Repository.Mysql.Where("deleted_at IS NULL AND admin_id = ? AND product_id = ?", Request.AdminId, Request.ProductId).First(&cartExist)
+
+	if cartExist.Id == 0 {
+		if product.Stock < Request.Qty {
+			Error = errors.New("STOCK_UNAVAILABLE")
+			return Response, Error
+		}
+
+		if Error = Repository.Mysql.Create(&cart).Error; Error != nil {
+			return Response, Error
+		}
+
+		mapCartEntityToCartResponse(&Response, cart, product)
+	} else {
+		cartExist.Qty += Request.Qty
+
+		if product.Stock < cartExist.Qty {
+			Error = errors.New("STOCK_UNAVAILABLE")
+			return Response, Error
+		}
+
+		if Error = Repository.Mysql.Save(&cartExist).Error; Error != nil {
+			return Response, Error
+		}
+		mapCartEntityToCartResponse(&Response, cartExist, product)
 	}
 
-	if Error = Repository.Mysql.Create(&cart).Error; Error != nil {
-		return Response, Error
-	}
-	mapCartEntityToCartResponse(&Response, cart, product)
 	return Response, Error
 }
 
@@ -101,6 +120,11 @@ func (Repository TransactionRepositoryImpl) UpdateCart(Id int64, Request model.C
 	mapCartRequestToCartEntity(&newCart, Request)
 	cart.Qty = newCart.Qty
 	cart.UpdateAt = time.Now()
+
+	if product.Stock < cart.Qty {
+		Error = errors.New("STOCK_UNAVAILABLE")
+		return Response, Error
+	}
 
 	if Error = Repository.Mysql.Save(&cart).Error; Error != nil {
 		return Response, Error
