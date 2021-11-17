@@ -10,10 +10,10 @@ import (
 
 func InsertUserValidation(Request model.UserRequest) (err error) {
 	err = validation.ValidateStruct(&Request,
-		validation.Field(&Request.Name, validation.Required.Error("NOT_BLANK")),
-		validation.Field(&Request.Email, validation.Required.Error("NOT_BLANK"), is.Email),
+		validation.Field(&Request.Name, validation.Required.Error("NOT_BLANK"), is.Alpha.Error("MUST_STRING")),
+		validation.Field(&Request.Email, validation.Required.Error("NOT_BLANK"), is.Email.Error("NOT_VALID")),
 		validation.Field(&Request.Password, validation.Required.Error("NOT_BLANK")),
-		validation.Field(&Request.Role, validation.Required.Error("NOT_BLANK"), validation.In("ADMIN", "SUPERADMIN")),
+		validation.Field(&Request.Role, validation.Required.Error("NOT_BLANK"), validation.In("ADMIN", "SUPERADMIN").Error("NOT_VALID")),
 	)
 
 	if err != nil {
@@ -28,9 +28,9 @@ func InsertUserValidation(Request model.UserRequest) (err error) {
 
 func UpdateUserValidation(Request model.UserRequest) (err error) {
 	err = validation.ValidateStruct(&Request,
-		validation.Field(&Request.Name, validation.Required.Error("NOT_BLANK")),
-		validation.Field(&Request.Email, validation.Required.Error("NOT_BLANK")),
-		validation.Field(&Request.Role, validation.Required.Error("NOT_BLANK")),
+		validation.Field(&Request.Name, validation.Required.Error("NOT_BLANK"), is.Alpha.Error("MUST_STRING")),
+		validation.Field(&Request.Email, validation.Required.Error("NOT_BLANK"), is.Email.Error("NOT_VALID")),
+		validation.Field(&Request.Role, validation.Required.Error("NOT_BLANK"), validation.In("ADMIN", "SUPERADMIN").Error("NOT_VALID")),
 	)
 
 	if err != nil {

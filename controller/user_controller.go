@@ -71,13 +71,11 @@ func (Controller UserController) GetUserDetail(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
-			Code:   fiber.StatusBadRequest,
-			Status: "BAD_REQUEST",
+		return c.Status(fiber.StatusNotFound).JSON(model.Response{
+			Code:   fiber.StatusNotFound,
+			Status: "NOT_FOUND",
 			Data:   nil,
-			Error: map[string]string{
-				"id": "INVALID_ID",
-			},
+			Error:  nil,
 		})
 	}
 
@@ -101,13 +99,11 @@ func (Controller UserController) UpdateUser(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
-			Code:   fiber.StatusBadRequest,
-			Status: "BAD_REQUEST",
+		return c.Status(fiber.StatusNotFound).JSON(model.Response{
+			Code:   fiber.StatusNotFound,
+			Status: "NOT_FOUND",
 			Data:   nil,
-			Error: map[string]string{
-				"id": "INVALID_ID",
-			},
+			Error:  nil,
 		})
 	}
 
@@ -144,13 +140,11 @@ func (Controller UserController) DeleteUser(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
-			Code:   fiber.StatusBadRequest,
-			Status: "BAD_REQUEST",
+		return c.Status(fiber.StatusNotFound).JSON(model.Response{
+			Code:   fiber.StatusNotFound,
+			Status: "NOT_FOUND",
 			Data:   nil,
-			Error: map[string]string{
-				"id": "INVALID_ID",
-			},
+			Error:  nil,
 		})
 	}
 

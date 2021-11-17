@@ -59,13 +59,11 @@ func (Controller TransactionController) UpdateCart(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusOK).JSON(model.Response{
-			Code:   fiber.StatusOK,
-			Status: "BAD_REQUEST",
+		return c.Status(fiber.StatusNotFound).JSON(model.Response{
+			Code:   fiber.StatusNotFound,
+			Status: "NOT_FOUND",
 			Data:   nil,
-			Error: map[string]string{
-				"id": "INVALID_ID",
-			},
+			Error:  nil,
 		})
 	}
 
@@ -102,13 +100,11 @@ func (Controller TransactionController) DeleteCart(c *fiber.Ctx) error {
 	}
 
 	if id <= 0 {
-		return c.Status(fiber.StatusOK).JSON(model.Response{
-			Code:   fiber.StatusOK,
-			Status: "BAD_REQUEST",
+		return c.Status(fiber.StatusNotFound).JSON(model.Response{
+			Code:   fiber.StatusNotFound,
+			Status: "NOT_FOUND",
 			Data:   nil,
-			Error: map[string]string{
-				"id": "INVALID_ID",
-			},
+			Error:  nil,
 		})
 	}
 

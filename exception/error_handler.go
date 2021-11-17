@@ -75,6 +75,17 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 		})
 	}
 
+	if err.Error() == "STOCK_UNAVAILABLE" {
+		return ctx.Status(400).JSON(model.Response{
+			Code:   400,
+			Status: "BAD_REQUEST",
+			Data:   nil,
+			Error: map[string]interface{}{
+				"stock": "STOCK_UNAVAILABLE",
+			},
+		})
+	}
+
 	if err.Error() == "PASSWORD_OLD_NOTMATCH" {
 		return ctx.Status(400).JSON(model.Response{
 			Code:   400,
