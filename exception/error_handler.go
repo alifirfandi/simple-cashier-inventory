@@ -63,6 +63,18 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 			},
 		})
 	}
+
+	if err.Error() == "EMAIL_REGISTERED" {
+		return ctx.Status(400).JSON(model.Response{
+			Code:   400,
+			Status: "BAD_REQUEST",
+			Data:   nil,
+			Error: map[string]interface{}{
+				"email": "MUST_UNIQUE",
+			},
+		})
+	}
+
 	if err.Error() == "PASSWORD_OLD_NOTMATCH" {
 		return ctx.Status(400).JSON(model.Response{
 			Code:   400,

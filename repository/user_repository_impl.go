@@ -104,6 +104,16 @@ func (Repository UserRepositoryImpl) DeleteUser(Id int64) (Error error) {
 	return Error
 }
 
+func (Repository UserRepositoryImpl) CheckUserExist(Email string) (userExist bool) {
+	var userFound int64
+	Repository.Mysql.Table("users").Where("email = ?", Email).Count(&userFound)
+	if userFound == 0 {
+		return false
+	} else {
+		return true
+	}
+}
+
 func NewUserRepository(Mysql *gorm.DB) UserRepository {
 	return &UserRepositoryImpl{
 		Mysql: *Mysql,
